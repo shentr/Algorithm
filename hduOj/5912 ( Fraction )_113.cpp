@@ -3,51 +3,62 @@
 
 
 #include <iostream>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
+
 using namespace std;
-int T;
-long long a[20],b[20];
-int n;
-long long gcd(long long x,long long y)
+
+int gcd(int a,int b)
 {
-    return y?gcd(y,x%y):x;
+    if(b==0)
+        return a;
+    else return gcd(b,a%b);
 }
+
+int lcm(int a,int b)
+{
+    return a*b/gcd(a,b);
+}
+
 int main()
 {
-    ios::sync_with_stdio(false);
-    int cases=1;
-    cin>>T;
+    int T;
+    int n;
+    int a[20],b[20];
+    int casenum=1;
+    scanf("%d",&T);
     while(T--)
     {
-        cin>>n;
+        scanf("%d",&n);
         memset(a,0,sizeof(a));
         memset(b,0,sizeof(b));
-        for(int i=1;i<=n;i++)
-            cin>>a[i];
-        for(int i=1;i<=n;i++)
-            cin>>b[i];
-            long long nn=n;
-        long long fz=b[nn];
-        long long fm=a[nn];
-        for(int i=nn-1;i>=1;i--)
+        for(int i=0;i<n;i++)
         {
-            long long fz2=b[i]*fm;
-            long long  fm2=fm*a[i]+fz;
-           // cout<<fz2<<" "<<fm2<<endl;
-            long long chu=gcd(fz2,fm2);
-           // cout<<chu<<endl;
-            if(chu!=0)
-            {
-                fz=fz2/chu;
-               // cout<<fz<<" "<<fz2<<" "<<chu<<endl;
-                fm=fm2/chu;
-                // cout<<fm<<" "<<fm2<<" "<<chu<<endl;
-            }
+            scanf("%d",&a[i]);
         }
-        long long g=gcd(fz,fm);
-        fz=fz/g,fm=fm/g;
-        cout<<"Case #"<<cases++<<": ";
-        cout<<fz<<" "<<fm<<endl;
+        for(int i=0;i<n;i++)
+        {
+            scanf("%d",&b[i]);
+        }
+        int fenzi,fenmu;
+        fenzi=b[n-1];
+        fenmu=a[n-1];
+        int tmp;
+        //cout<<fenzi<<"hfdksjf1111   "<<fenmu<<endl;
+        for(int i=n-2;i>=0;i--)
+        {
+
+            fenzi=fenzi+a[i]*fenmu;
+            fenmu=fenmu;
+            //cout<<fenzi<<"hfdksjf2222   "<<fenmu<<endl;
+            tmp=fenzi;
+            fenzi=b[i]*fenmu;
+            fenmu=tmp;
+            //cout<<fenzi<<"hfdksjf333   "<<fenmu<<endl;
+        }
+        int d=gcd(fenzi,fenmu);
+        printf("Case #%d: ",casenum++);
+        printf("%d %d\n",fenzi/d,fenmu/d);
     }
     return 0;
 }
